@@ -1,0 +1,54 @@
+body{
+    background-image: url("http://vseon.com/media/zoo/images/001_7d0408fae2f61f022953d6ec6fa989ac.jpg");
+}
+.login{
+    height:200px;
+    width:290px;
+    background:black;
+    border:1px double black;
+    border-radius:20px;
+    opacity:0.8;
+    position:absolute;
+    right:40%;
+    top:20%;
+    padding:70px 30px;
+
+}
+h1{
+    margin:0;
+    padding: 0 0 20px;
+    text-align:center;
+    color:white;
+    font-size:40px;
+}
+
+input{
+    width:100%;
+    margin-bottom:10px;
+}
+
+input[type="text"], input[type="password"] {
+    border:none;
+    border-radius:20px;
+    height: 20px;
+    border-bottom:1px solid #fff;
+    color:black;
+}
+
+input[type="submit"]{
+    border:none;
+    height:25px;
+    border-radius:20px;
+    color:#fff;
+    background:blue;
+}
+input[type="submit"]:hover{
+    background-color:red;
+}
+h2{
+    color:white;
+    padding:0;}
+
+::-webkit-input-placeholder {
+    text-align:center;
+}
