@@ -1,60 +1,59 @@
 package by.javatr.library.dao;
 
 import by.javatr.library.builder.Builder;
-import by.javatr.library.connection.ConnectionPool;
+import by.javatr.library.dao.connection.ConnectionPool;
+import by.javatr.library.dao.connection.ProxyConnection;
+import by.javatr.library.exception.DaoException;
+import org.apache.log4j.Logger;
 
-import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractDao<T,K> implements Dao<T, K> {
+public abstract class AbstractDao<T, K> implements Dao<T, K> {
+    private final static Logger LOGGER = Logger.getLogger(AbstractDao.class);
 
-    protected List<T> executeQuery(String query, Builder<T> builder){
-        ConnectionPool connectionPool = null;
-        Connection connection = null;
+    private static ConnectionPool connectionPool = ConnectionPool.getInstance();
+
+    protected List<T> executeQuery(String query, Builder<T> builder) throws DaoException {
+        PreparedStatement preparedStatement = null;
+        ProxyConnection connection = null;
         List<T> entities = null;
         try {
-            connectionPool = ConnectionPool.getInstance();
-            connection = connectionPool.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
             entities = new ArrayList<>();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 T entity = builder.build(resultSet);
                 entities.add(entity);
             }
         } catch (SQLException e) {
-
+            LOGGER.error(e.getMessage(), e);
+            throw new DaoException(e.getMessage(), e);
         } finally {
-            if (connectionPool!=null){
-                connectionPool.closeConnection(connection);
+            try {
+                if (connection!=null){
+                    preparedStatement.close();
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
             }
         }
         return entities;
     }
 
-    protected T executeQuerySingleResult(String query, Builder<T> builder, String...parameters){
-        ConnectionPool connectionPool = null;
-        Connection connection = null;
-        T entity = null;
+    protected ProxyConnection getConnection(){
+        ProxyConnection connection = null;
         try {
-            connectionPool = ConnectionPool.getInstance();
             connection = connectionPool.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()){
-                entity = builder.build(resultSet);
-            }
-        } catch (SQLException e) {
-
-        } finally {
-            if (connectionPool!=null){
-                connectionPool.closeConnection(connection);
-            }
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage(), e);
         }
-        return entity;
+        return connection;
     }
+
 }

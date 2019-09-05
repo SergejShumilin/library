@@ -1,7 +1,6 @@
 package by.javatr.library.entity;
 
 public class Book {
-    private int id;
     private String title;
     private String author;
     private String genre;
@@ -10,20 +9,11 @@ public class Book {
     public Book() {
     }
 
-    public Book(int id, String title, String author, String genre, int numberOfInstances) {
-        this.id = id;
+    public Book(String title, String author, String genre, int numberOfInstances) {
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.numberOfInstances = numberOfInstances;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTitle() {

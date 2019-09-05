@@ -1,11 +1,13 @@
 package by.javatr.library.command;
 
-import by.javatr.library.command.impl.LoginCommand;
 import by.javatr.library.command.impl.GoToRegisterCommand;
+import by.javatr.library.command.impl.LoginCommand;
 import by.javatr.library.command.impl.RegistrationCommand;
 
+
 public class CommandFactory {
-    public static Command createCommand(String action) {
+
+    public Command createCommand(String action) {
         switch (action) {
             case "login":
                 return new LoginCommand();

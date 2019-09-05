@@ -11,15 +11,10 @@ public class UserBuilder implements Builder<User> {
     @Override
     public User build(ResultSet resultSet) throws SQLException {
         User user = new User();
-        int id = resultSet.getInt(user.getId());
-        user.setId(id);
-        String name = resultSet.getString(user.getName());
+        String name = resultSet.getString("name");
         user.setName(name);
-        String password = resultSet.getString(user.getPassword());
+        String password = resultSet.getString("password");
         user.setPassword(password);
-        String roleUser = resultSet.getString(user.getRole().name());
-        Role role = Role.valueOf(roleUser);
-        user.setRole(role);
         return user;
     }
 }

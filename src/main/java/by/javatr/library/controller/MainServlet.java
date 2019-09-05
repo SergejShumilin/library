@@ -2,8 +2,10 @@ package by.javatr.library.controller;
 
 import by.javatr.library.command.Command;
 import by.javatr.library.command.CommandFactory;
+import by.javatr.library.exception.DaoException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,18 +21,20 @@ public class MainServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // определение команды, пришедшей из JSP
         String page = null;
         String action = request.getParameter("command");
-        if (action!=null){
-            Command command =CommandFactory.createCommand(action);
-            page = command.execute(request);
-
+        if (action != null) {
+            try {
+                CommandFactory commandFactory = new CommandFactory();
+                Command command = commandFactory.createCommand(action);
+                page = command.execute(request);
+            } catch (DaoException e) {
+                request.setAttribute("error", e.getMessage());
+                page = "/WEB-INF/jsp/error.jsp";
+            }
         } else {
             page = "login.jsp";
         }
         request.getRequestDispatcher(page).forward(request, response);
-
-
     }
 }
