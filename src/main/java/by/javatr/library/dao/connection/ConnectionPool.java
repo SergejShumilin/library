@@ -23,6 +23,10 @@ public class ConnectionPool {
         for (int i = 0; i < poolSize; i++) {
             connectionQueue.offer(createConnection());
         }
+        if (connectionQueue.size() < poolSize * 0.75) {
+            LOGGER.fatal("ConnectionPool don`t created");
+            throw new RuntimeException();
+        }
     }
 
     /**
@@ -31,6 +35,7 @@ public class ConnectionPool {
     private ProxyConnection createConnection() {
         ProxyConnection proxyConnection = null;
         try {
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             Connection connection = dbConnection.makeConnection();
             proxyConnection = new ProxyConnection(connection);
         } catch (SQLException e) {

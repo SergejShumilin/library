@@ -9,6 +9,12 @@ public class Book {
     public Book() {
     }
 
+    public Book(String title, String author, String genre) {
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+    }
+
     public Book(String title, String author, String genre, int numberOfInstances) {
         this.title = title;
         this.author = author;

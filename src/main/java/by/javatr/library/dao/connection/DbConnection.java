@@ -14,7 +14,6 @@ public class DbConnection {
 
 
     public Connection makeConnection() throws SQLException {
-        DriverManager.registerDriver(new com.mysql.jdbc.Driver());
         Connection connection = DriverManager.getConnection(URL, NAME, PASS);
         return connection;
     }

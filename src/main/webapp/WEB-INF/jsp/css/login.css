@@ -1,6 +1,6 @@
-body{
-    background-image: url("http://vseon.com/media/zoo/images/001_7d0408fae2f61f022953d6ec6fa989ac.jpg");
-}
+/*body{*/
+/*    background-image: url("http://vseon.com/media/zoo/images/001_7d0408fae2f61f022953d6ec6fa989ac.jpg");*/
+/*}*/
 .login{
     height:200px;
     width:290px;
@@ -11,15 +11,23 @@ body{
     position:absolute;
     right:40%;
     top:20%;
-    padding:70px 30px;
-
+    padding:10px;
 }
+
 h1{
     margin:0;
     padding: 0 0 20px;
     text-align:center;
     color:white;
     font-size:40px;
+}
+
+h2{
+    margin:0;
+    text-align: center;
+    color:white;
+    padding:0 0 20px;
+    font-size:20px;
 }
 
 input{
@@ -34,7 +42,16 @@ input[type="text"], input[type="password"] {
     border-bottom:1px solid #fff;
     color:black;
 }
-
+.form {
+    display: block;
+    max-width: 480px;
+    width: 100%;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: #fff;
+    border-radius: 3px;
+}
 input[type="submit"]{
     border:none;
     height:25px;
@@ -45,9 +62,6 @@ input[type="submit"]{
 input[type="submit"]:hover{
     background-color:red;
 }
-h2{
-    color:white;
-    padding:0;}
 
 ::-webkit-input-placeholder {
     text-align:center;

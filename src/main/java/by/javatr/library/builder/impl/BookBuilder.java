@@ -16,8 +16,8 @@ public class BookBuilder implements Builder<Book> {
         book.setAuthor(author);
         String genre = resultSet.getString("genre");
         book.setGenre(genre);
-        int numberOfInstances = resultSet.getInt("number_instances");
-        book.setNumberOfInstances(numberOfInstances);
+//        int numberOfInstances = resultSet.getInt("number_instances");
+//        book.setNumberOfInstances(numberOfInstances);
         return book;
     }
 }
