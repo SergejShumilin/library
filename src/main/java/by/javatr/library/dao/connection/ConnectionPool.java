@@ -9,17 +9,27 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import static by.javatr.library.dao.connection.DbPropertyManager.getProperty;
+
 public class ConnectionPool {
     private final static Logger LOGGER = Logger.getLogger(ConnectionPool.class);
 
-    private final static int POOL_SIZE = 20;
-    private static final ConnectionPool INSTANCE = new ConnectionPool(POOL_SIZE);
-    private DbConnection dbConnection;
     private LinkedBlockingQueue<ProxyConnection> connectionQueue;
 
+    private final static String URL = getProperty("url");
+    private final static String USER = getProperty("user");
+    private final static String PASSWORD = getProperty("password");
+    private final static int POOL_SIZE = Integer.parseInt(getProperty("poolSize"));
+    private static final ConnectionPool INSTANCE = new ConnectionPool(POOL_SIZE);
+
     private ConnectionPool(int poolSize) {
-        dbConnection = new DbConnection();
         connectionQueue = new LinkedBlockingQueue<>(poolSize);
+        try {
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+        } catch (SQLException e) {
+            LOGGER.fatal("ConnectionPool(int poolSize)", e);
+            throw new RuntimeException(e);
+        }
         for (int i = 0; i < poolSize; i++) {
             connectionQueue.offer(createConnection());
         }
@@ -36,7 +46,7 @@ public class ConnectionPool {
         ProxyConnection proxyConnection = null;
         try {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            Connection connection = dbConnection.makeConnection();
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
             proxyConnection = new ProxyConnection(connection);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);

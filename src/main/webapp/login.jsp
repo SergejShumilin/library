@@ -1,29 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page isELIgnored="false"%>
 
-<fmt:setLocale value="${param.lang}" />
+
+<fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="text"/>
 
-<html lang="${param.lang}">
+<html>
 <head>
     <title><fmt:message key="Login.title"/></title>
 </head>
 <style>
     <%@include file="/WEB-INF/jsp/css/login.css" %>
+    <%@include file="/WEB-INF/jsp/css/header.css" %>
 </style>
 <body>
-
-<ul>
-    <li><a href="?lang=en"><fmt:message key="label.lang.en" /></a></li>
-    <li><a href="?lang=de"><fmt:message key="label.lang.de" /></a></li>
-</ul>
-
-
+<jsp:include page="/WEB-INF/jsp/header_login.jsp"/>
 <div class="login">
-    <h1><fmt:message key="Login.title" /></h1>
-    <form name="loginForm" method="POST" action="/">
+    <h2><fmt:message key="Login.title"/></h2>
+    <form method="POST" action="/">
         <input type="hidden" name="command" value="login"/>
 
         <input type="text" name="login" placeholder="<fmt:message key="Login.login"/>"/>
@@ -32,6 +27,7 @@
         <input type="submit" value="<fmt:message key = "Login.enter"/>"/>
     </form>
     <h2>${errorLoginPassMessage}</h2>
+<%--    <c:if test="${errorLoginPassMessage == true}"><fmt:message key="Registration.errorLoginPassMessage"/></c:if>--%>
 </div>
 </body>
 </html>

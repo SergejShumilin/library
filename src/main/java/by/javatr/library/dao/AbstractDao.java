@@ -59,15 +59,4 @@ public abstract class AbstractDao<T, K> implements Dao<T, K> {
     public Connection getConnection() {
         return connection;
     }
-
-    //    protected ProxyConnection getConnection(){
-//        ProxyConnection connection = null;
-//        try {
-//            connection = connectionPool.getConnection();
-//        } catch (DaoException e) {
-//            LOGGER.error(e.getMessage(), e);
-//        }
-//        return connection;
-//    }
-
 }

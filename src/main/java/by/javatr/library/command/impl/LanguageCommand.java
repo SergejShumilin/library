@@ -1,5 +1,6 @@
-package by.javatr.library.command;
+package by.javatr.library.command.impl;
 
+import by.javatr.library.command.Command;
 import by.javatr.library.exception.DaoException;
 
 import javax.servlet.http.HttpServletRequest;

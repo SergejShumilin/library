@@ -1,8 +1,6 @@
 package by.javatr.library.service;
 
 import by.javatr.library.dao.DaoFactory;
-import by.javatr.library.dao.connection.ConnectionPool;
-import by.javatr.library.dao.connection.ProxyConnection;
 import by.javatr.library.dao.impl.UserDaoImp;
 import by.javatr.library.entity.User;
 import by.javatr.library.exception.DaoException;
@@ -21,24 +19,13 @@ public class UserService {
     }
 
     public Optional<User> login(String login, String password) throws ServiceException {
-        try{
+        try {
             UserDaoImp dao = daoFactory.createUserDao();
             return dao.findUserByLoginAndPassword(login, password);
-        } catch (DaoException e){
+        } catch (DaoException e) {
             LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage(), e);
         }
     }
-
-//    public boolean register(User user) throws ServiceException {
-//        try{
-//            dao.save(user);
-//        } catch (DaoException e){
-//            LOGGER.error(e.getMessage(), e);
-//            throw new ServiceException(e.getMessage(), e);
-//        }
-//        return true;
-//    }
-
 
 }

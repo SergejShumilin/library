@@ -1,24 +1,22 @@
 package by.javatr.library.entity;
 
+import java.util.Objects;
+
 public class Book {
     private String title;
     private String author;
     private String genre;
+    private String description;
     private int numberOfInstances;
 
     public Book() {
     }
 
-    public Book(String title, String author, String genre) {
+    public Book(String title, String author, String genre, String description, int numberOfInstances) {
         this.title = title;
         this.author = author;
         this.genre = genre;
-    }
-
-    public Book(String title, String author, String genre, int numberOfInstances) {
-        this.title = title;
-        this.author = author;
-        this.genre = genre;
+        this.description = description;
         this.numberOfInstances = numberOfInstances;
     }
 
@@ -46,11 +44,36 @@ public class Book {
         this.genre = genre;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public int getNumberOfInstances() {
         return numberOfInstances;
     }
 
     public void setNumberOfInstances(int numberOfInstances) {
         this.numberOfInstances = numberOfInstances;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return numberOfInstances == book.numberOfInstances &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(genre, book.genre) &&
+                Objects.equals(description, book.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, author, genre, description, numberOfInstances);
     }
 }

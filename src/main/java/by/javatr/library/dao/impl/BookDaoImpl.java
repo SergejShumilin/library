@@ -3,28 +3,55 @@ package by.javatr.library.dao.impl;
 import by.javatr.library.builder.impl.BookBuilder;
 import by.javatr.library.dao.AbstractDao;
 import by.javatr.library.dao.BookDao;
-import by.javatr.library.dao.connection.ProxyConnection;
 import by.javatr.library.entity.Book;
 import by.javatr.library.exception.DaoException;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class BookDaoImpl extends AbstractDao<Book, String> implements BookDao<Book, String> {
     private final static Logger LOGGER = Logger.getLogger(BookDaoImpl.class);
 
-    private final static String ADD_BOOK = "insert into books(title,author,genre,number_instance) values (?,?,?,?)";
-    private final static String DELETE_BOOK = "DELETE FROM books WHERE id = ?";
-    private final static String FIND_BOOK_BY_NAME = "SELECT * FROM books WHERE name = ?";
+    private final static String ADD_BOOK = "insert into books(title,author,genre,description,number_instances) values (?,?,?,?,?)";
+    private final static String DELETE_BOOK = "DELETE FROM books WHERE title = ?";
     private final static String FIND_All_BOOKS = "SELECT * FROM books";
+    private final static String FIND_BOOK = "SELECT * FROM books WHERE title = ?";
+    private static String UPDATE_BOOK_STOCK = "UPDATE books SET number_instances=? WHERE title=?";
 
     public BookDaoImpl(Connection connection) {
         super(connection);
+    }
+
+
+    public void updateBookNumber(Book book) throws DaoException {
+        try(Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOOK_STOCK);
+            preparedStatement.setInt(1, book.getNumberOfInstances());
+            preparedStatement.setString(2, book.getTitle());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage(), e);
+        }
+    }
+    public Book findByTitle(String title) throws DaoException {
+      Book book = null;
+        try(Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BOOK);
+            preparedStatement.setString(1, title);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                book = new BookBuilder().build(resultSet);
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new DaoException(e.getMessage(), e);
+        }
+        return book;
     }
 
     @Override
@@ -34,20 +61,14 @@ public class BookDaoImpl extends AbstractDao<Book, String> implements BookDao<Bo
     }
 
     @Override
-    public Optional<Book> getByName(String name) throws DaoException {
-        return executeForSingleResult(FIND_BOOK_BY_NAME, new BookBuilder(), name);
-    }
-
-
-    @Override
     public boolean save(Book book) throws DaoException {
-        try {
-            Connection connection = getConnection();
+        try(Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_BOOK);
             preparedStatement.setString(1, book.getTitle());
             preparedStatement.setString(2, book.getAuthor());
             preparedStatement.setString(3, book.getGenre());
-            preparedStatement.setInt(4, book.getNumberOfInstances());
+            preparedStatement.setString(4, book.getDescription());
+            preparedStatement.setInt(5, book.getNumberOfInstances());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
@@ -57,17 +78,15 @@ public class BookDaoImpl extends AbstractDao<Book, String> implements BookDao<Bo
     }
 
     @Override
-    public boolean removeById(int id) throws DaoException {
-        try {
-            Connection connection = getConnection();
+    public void removeByTitle(String title) throws DaoException {
+        try(Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BOOK);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, title);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(),e);
             throw new DaoException(e.getMessage(), e);
         }
-        return true;
     }
 
 }

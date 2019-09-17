@@ -15,6 +15,9 @@ public class UserBuilder implements Builder<User> {
         user.setName(name);
         String password = resultSet.getString("password");
         user.setPassword(password);
+        String stringRole = resultSet.getString("role").toUpperCase();
+        Role role = Role.valueOf(stringRole);
+        user.setRole(role);
         return user;
     }
 }

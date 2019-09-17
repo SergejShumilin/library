@@ -4,6 +4,7 @@ import by.javatr.library.command.Command;
 import by.javatr.library.dao.connection.ConnectionPool;
 import by.javatr.library.dao.impl.BookDaoImpl;
 import by.javatr.library.entity.Book;
+import by.javatr.library.entity.Role;
 import by.javatr.library.entity.User;
 import by.javatr.library.exception.DaoException;
 import by.javatr.library.exception.ServiceException;
@@ -33,18 +34,29 @@ public class LoginCommand implements Command {
         String page = null;
         String login = request.getParameter(PARAM_NAME_LOGIN);
         String password = request.getParameter(PARAM_NAME_PASSWORD);
-
-        Optional<User> user = null;
+//        Optional<User> userOptional = null;
         try {
-            user = userService.login(login, password);
-            if (user.isPresent()) {
-                BookDaoImpl bookDao = new BookDaoImpl(ConnectionPool.getInstance().getConnection());
-                List<Book> all = bookDao.findAll();
-                session.setAttribute("books", all);
-                page = "/WEB-INF/jsp/main.jsp";
-            } else {
+            Optional<User> userOptional = userService.login(login, password);
+            User user = null;
+            if (userOptional.isPresent()){
+                user = userOptional.get();
+            }
+            if (user==null) {
+//                request.setAttribute("errorLoginPassMessage", true);
                 request.setAttribute("errorLoginPassMessage", "Incorrect login or password");
                 page = "login.jsp";
+            } else {
+                session.setAttribute("user", user);
+                BookDaoImpl bookDao = new BookDaoImpl(ConnectionPool.getInstance().getConnection());
+                List<Book> allBooks = bookDao.findAll();
+                if (Role.ADMIN.equals(user.getRole())){
+                        request.setAttribute("books", allBooks);
+                        page = "/WEB-INF/jsp/main.jsp";
+                }
+                else if (Role.READER.equals(user.getRole())){
+                    request.setAttribute("books", allBooks);
+                    page = "/WEB-INF/jsp/reader.jsp";
+                }
             }
         } catch (ServiceException | DaoException e) {
             LOGGER.error(e.getMessage(), e);

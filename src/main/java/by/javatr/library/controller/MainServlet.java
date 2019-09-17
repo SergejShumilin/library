@@ -25,6 +25,7 @@ public class MainServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page = null;
         String action = request.getParameter("command");
+        
         if (action != null) {
             ConnectionPool connectionPool = ConnectionPool.getInstance();
             try(ProxyConnection connection = connectionPool.getConnection()) {
@@ -32,31 +33,15 @@ public class MainServlet extends HttpServlet {
                 CommandFactory commandFactory = new CommandFactory(daoFactory);
                 Command command = commandFactory.createCommand(action);
                 page = command.execute(request);
-            } catch (DaoException e) {
+            } 
+            catch (DaoException e) {
                 request.setAttribute("error", e.getMessage());
                 page = "/WEB-INF/jsp/error.jsp";
             }
-        } else {
+        }
+        else {
             page = "login.jsp";
         }
         request.getRequestDispatcher(page).forward(request, response);
     }
-//
-//    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String page = null;
-//        String action = request.getParameter("command");
-//        if (action != null) {
-//            try {
-//                CommandFactory commandFactory = new CommandFactory();
-//                Command command = commandFactory.createCommand(action);
-//                page = command.execute(request);
-//            } catch (DaoException e) {
-//                request.setAttribute("error", e.getMessage());
-//                page = "/WEB-INF/jsp/error.jsp";
-//            }
-//        } else {
-//            page = "login.jsp";
-//        }
-//        request.getRequestDispatcher(page).forward(request, response);
-//    }
 }
