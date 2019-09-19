@@ -3,6 +3,7 @@ package by.javatr.library.entity;
 import java.util.Objects;
 
 public class Book {
+    private int id;
     private String title;
     private String author;
     private String genre;
@@ -18,6 +19,23 @@ public class Book {
         this.genre = genre;
         this.description = description;
         this.numberOfInstances = numberOfInstances;
+    }
+
+    public Book(int id, String title, String author, String genre, String description, int numberOfInstances) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.description = description;
+        this.numberOfInstances = numberOfInstances;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -65,7 +83,8 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return numberOfInstances == book.numberOfInstances &&
+        return id == book.id &&
+                numberOfInstances == book.numberOfInstances &&
                 Objects.equals(title, book.title) &&
                 Objects.equals(author, book.author) &&
                 Objects.equals(genre, book.genre) &&
@@ -74,6 +93,6 @@ public class Book {
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, author, genre, description, numberOfInstances);
+        return Objects.hash(id, title, author, genre, description, numberOfInstances);
     }
 }

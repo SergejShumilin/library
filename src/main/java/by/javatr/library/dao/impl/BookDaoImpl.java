@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -27,42 +26,19 @@ public class BookDaoImpl extends AbstractDao<Book, String> implements BookDao<Bo
         super(connection);
     }
 
-
-    public void updateBookNumber(Book book) throws DaoException {
-        try(Connection connection = getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOOK_STOCK);
-            preparedStatement.setInt(1, book.getNumberOfInstances());
-            preparedStatement.setString(2, book.getTitle());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DaoException(e.getMessage(), e);
-        }
-    }
-    public Book findByTitle(String title) throws DaoException {
-      Book book = null;
-        try(Connection connection = getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BOOK);
-            preparedStatement.setString(1, title);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                book = new BookBuilder().build(resultSet);
-            }
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new DaoException(e.getMessage(), e);
-        }
-        return book;
+    @Override
+    public Optional<Book> findByTitle(String title) throws DaoException {
+        return executeForSingleResult(FIND_BOOK, new BookBuilder(), title);
     }
 
     @Override
     public List<Book> findAll() throws DaoException {
-        List<Book> books = executeQuery(FIND_All_BOOKS, new BookBuilder());
-        return books;
+        return executeQuery(FIND_All_BOOKS, new BookBuilder());
     }
 
     @Override
-    public boolean save(Book book) throws DaoException {
-        try(Connection connection = getConnection()) {
+    public void save(Book book) throws DaoException {
+        try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_BOOK);
             preparedStatement.setString(1, book.getTitle());
             preparedStatement.setString(2, book.getAuthor());
@@ -74,19 +50,29 @@ public class BookDaoImpl extends AbstractDao<Book, String> implements BookDao<Bo
             LOGGER.error(e.getMessage(), e);
             throw new DaoException(e.getMessage(), e);
         }
-        return true;
     }
 
     @Override
     public void removeByTitle(String title) throws DaoException {
-        try(Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BOOK);
             preparedStatement.setString(1, title);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
             throw new DaoException(e.getMessage(), e);
         }
     }
 
+    @Override
+    public void updateBookNumber(Book book) throws DaoException {
+        try (Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOOK_STOCK);
+            preparedStatement.setInt(1, book.getNumberOfInstances());
+            preparedStatement.setString(2, book.getTitle());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage(), e);
+        }
+    }
 }

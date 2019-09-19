@@ -8,6 +8,7 @@ import by.javatr.library.exception.ServiceException;
 import org.apache.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BookService {
     private final static Logger LOGGER = Logger.getLogger(BookService.class);
@@ -40,8 +41,8 @@ public class BookService {
         }
     }
 
-    public Book findByTitle(String title) throws ServiceException {
-        Book book = null;
+    public Optional<Book> findByTitle(String title) throws ServiceException {
+        Optional<Book> book = null;
         try {
             BookDaoImpl bookDao = daoFactory.createBookDao();
             book = bookDao.findByTitle(title);

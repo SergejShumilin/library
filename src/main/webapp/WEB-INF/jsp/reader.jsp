@@ -12,14 +12,22 @@
 <body>
 <jsp:include page="header.jsp"/>
 <div class="main">
+<%--<div class="center">--%>
     <c:forEach var="book" items="${books}">
         <form method="POST" action="/">
-            <p><fmt:message key="Main.title"/>: ${book.title}</p>
-            <p><fmt:message key="Main.author"/>: ${book.author}</p>
-            <p><fmt:message key="Main.genre"/>: ${book.genre} </p>
-            <hr>
-            <p><fmt:message key="Main.description"/>: ${book.description}</p>
+<%--            <p><fmt:message key="Main.title"/>: ${book.title}</p>--%>
+<%--            <p><fmt:message key="Main.author"/>: ${book.author}</p>--%>
+<%--            <p><fmt:message key="Main.genre"/>: ${book.genre} </p>--%>
+<%--            <hr>--%>
+<%--            <p><fmt:message key="Main.description"/>: ${book.description}</p>--%>
+    <ul>
+        <li><fmt:message key="Main.title"/>: ${book.title}</li>
+        <li><fmt:message key="Main.author"/>: ${book.author}</li>
+        <li><fmt:message key="Main.genre"/>: ${book.genre} </li>
+        <li><fmt:message key="Main.description"/>: ${book.description}</li>
+    </ul>
             <input type="hidden" name="command" value="order"/>
+            <input type="hidden" name="id" value="${book.id}"/>
             <input class="order" type="submit" value="<fmt:message key="Main.order"/>"/>
         </form>
     </c:forEach>

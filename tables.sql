@@ -15,3 +15,11 @@ CREATE TABLE books (
     description VARCHAR(500) NOT NULL,
     number_instances VARCHAR(30) NOT NULL
 );
+
+CREATE TABLE orders (
+    id INTEGER AUTO_INCREMENT NOT NULL,
+    user_id INTEGER NOT NULL,
+    book_title INTEGER  NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (book_title) REFERENCES books(title)
+);

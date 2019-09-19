@@ -6,5 +6,5 @@ import by.javatr.library.exception.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 
 public interface Command {
-    String execute(HttpServletRequest request) throws DaoException;
+    String execute(HttpServletRequest request);
 }

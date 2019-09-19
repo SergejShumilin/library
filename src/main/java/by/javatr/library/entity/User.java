@@ -1,18 +1,31 @@
 package by.javatr.library.entity;
 
 
+import java.util.Objects;
+
 public class User {
+    private int id;
     private String name;
     private String password;
     private Role role;
 
-    public User(String name, String password, Role role) {
+
+    public User(int id, String name, String password, Role role) {
+        this.id = id;
         this.name = name;
         this.password = password;
         this.role = role;
     }
 
     public User() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -37,6 +50,23 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(password, user.password) &&
+                role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, password, role);
     }
 
     @Override

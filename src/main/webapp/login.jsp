@@ -20,14 +20,12 @@
     <h2><fmt:message key="Login.title"/></h2>
     <form method="POST" action="/">
         <input type="hidden" name="command" value="login"/>
-
         <input type="text" name="login" placeholder="<fmt:message key="Login.login"/>"/>
         <input type="password" name="password" placeholder="<fmt:message key="Login.password"/>">
 
         <input type="submit" value="<fmt:message key = "Login.enter"/>"/>
     </form>
-    <h2>${errorLoginPassMessage}</h2>
-<%--    <c:if test="${errorLoginPassMessage == true}"><fmt:message key="Registration.errorLoginPassMessage"/></c:if>--%>
+    <c:if test="${errorLoginPassMessage == true}"><fmt:message key="Registration.errorLoginPassMessage"/></c:if>
 </div>
 </body>
 </html>

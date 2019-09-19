@@ -41,6 +41,18 @@ public abstract class AbstractDao<T, K> implements Dao<T, K> {
         return entities;
     }
 
+    protected void executeUpdate(String query, Builder<T> builder, String... parameters) throws DaoException {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            setParametersPreparedStatement(preparedStatement, parameters);
+            ResultSet resultSet = preparedStatement.executeQuery();
+        }
+        catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new DaoException(e.getMessage(), e);
+        }
+    }
+
     protected Optional<T> executeForSingleResult(String query, Builder<T> builder, String... parameters) throws DaoException {
         List<T> items = executeQuery(query, builder, parameters);
         if (items.size() == 1) {
@@ -51,8 +63,8 @@ public abstract class AbstractDao<T, K> implements Dao<T, K> {
     }
 
     private void setParametersPreparedStatement(PreparedStatement preparedStatement, String... parameters) throws SQLException {
-        for (int i = 1; i < parameters.length; i++) {
-            preparedStatement.setString(i, parameters[i]);
+        for (int i = 0; i < parameters.length; i++) {
+            preparedStatement.setString(i+1, parameters[i]);
         }
     }
 

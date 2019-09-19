@@ -9,6 +9,7 @@ import by.javatr.library.entity.User;
 import by.javatr.library.exception.DaoException;
 import by.javatr.library.exception.ServiceException;
 import by.javatr.library.service.UserService;
+import by.javatr.library.util.Constants;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,36 +31,32 @@ public class LoginCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        HttpSession session = request.getSession();
         String page = null;
         String login = request.getParameter(PARAM_NAME_LOGIN);
         String password = request.getParameter(PARAM_NAME_PASSWORD);
-//        Optional<User> userOptional = null;
         try {
             Optional<User> userOptional = userService.login(login, password);
-            User user = null;
             if (userOptional.isPresent()){
-                user = userOptional.get();
-            }
-            if (user==null) {
-//                request.setAttribute("errorLoginPassMessage", true);
-                request.setAttribute("errorLoginPassMessage", "Incorrect login or password");
-                page = "login.jsp";
-            } else {
-                session.setAttribute("user", user);
+                User user = userOptional.get();
+                HttpSession session = request.getSession();
+                int userId = user.getId();
+                session.setAttribute("userId", userId);
                 BookDaoImpl bookDao = new BookDaoImpl(ConnectionPool.getInstance().getConnection());
                 List<Book> allBooks = bookDao.findAll();
+                request.setAttribute("books", allBooks);
                 if (Role.ADMIN.equals(user.getRole())){
-                        request.setAttribute("books", allBooks);
-                        page = "/WEB-INF/jsp/main.jsp";
+                        page = Constants.MAIN;
                 }
                 else if (Role.READER.equals(user.getRole())){
-                    request.setAttribute("books", allBooks);
-                    page = "/WEB-INF/jsp/reader.jsp";
+                    page = Constants.READER;
                 }
+            } else {
+                request.setAttribute("errorLoginPassMessage", true);
+                page = Constants.LOGIN;
             }
         } catch (ServiceException | DaoException e) {
             LOGGER.error(e.getMessage(), e);
+            page = Constants.ERROR;
         }
         return page;
     }

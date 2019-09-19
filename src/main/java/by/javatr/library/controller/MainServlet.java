@@ -2,10 +2,12 @@ package by.javatr.library.controller;
 
 import by.javatr.library.command.Command;
 import by.javatr.library.command.CommandFactory;
+import by.javatr.library.command.CommandResult;
 import by.javatr.library.dao.DaoFactory;
 import by.javatr.library.dao.connection.ConnectionPool;
 import by.javatr.library.dao.connection.ProxyConnection;
 import by.javatr.library.exception.DaoException;
+import by.javatr.library.util.Constants;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +27,9 @@ public class MainServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page = null;
         String action = request.getParameter("command");
-        
+
+        CommandResult commandResult = null;
+
         if (action != null) {
             ConnectionPool connectionPool = ConnectionPool.getInstance();
             try(ProxyConnection connection = connectionPool.getConnection()) {
@@ -36,11 +40,15 @@ public class MainServlet extends HttpServlet {
             } 
             catch (DaoException e) {
                 request.setAttribute("error", e.getMessage());
-                page = "/WEB-INF/jsp/error.jsp";
+                page = Constants.ERROR;
             }
         }
         else {
-            page = "login.jsp";
+            page = Constants.LOGIN;
+        }
+
+        if (commandResult.isRedirect()){
+            response.sendRedirect(commandResult.getPage());
         }
         request.getRequestDispatcher(page).forward(request, response);
     }

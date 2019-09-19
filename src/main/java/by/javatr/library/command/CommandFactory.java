@@ -3,6 +3,7 @@ package by.javatr.library.command;
 import by.javatr.library.command.impl.*;
 import by.javatr.library.dao.DaoFactory;
 import by.javatr.library.service.BookService;
+import by.javatr.library.service.OrderService;
 import by.javatr.library.service.UserService;
 
 
@@ -23,6 +24,8 @@ public class CommandFactory {
                 return new AddBookCommand(new BookService(daoFactory));
             case "delete":
                 return new DeleteBookCommand(new BookService(daoFactory));
+            case "order":
+                return new OrderCommand(new OrderService(daoFactory));
             case "language":
                 return new LanguageCommand();
             default:

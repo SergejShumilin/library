@@ -1,6 +1,26 @@
 .main{
-    padding:20px;
+    /*padding:20px;*/
+
+    position: absolute;
+    left: 10%;
+    width: 80%;
 }
+
+ul {
+    /*background: #3399ff;*/
+    /*background: #1E90FF;*/
+    background: black;
+    opacity: 0.8;
+    padding: 20px;
+    list-style-type:none;
+}
+li {
+    color: white;
+}
+/*ul li {*/
+/*    background: #cce5ff;*/
+/*    margin: 5px;*/
+/*}*/
 h2{
     margin:0;
     text-align: left;
@@ -14,6 +34,14 @@ p{
     color:black;
     padding:0px;
     font-size:20px;
+}
+.center {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
 }
 
 /*.order{*/

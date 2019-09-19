@@ -13,7 +13,8 @@
 <body>
 <jsp:include page="header.jsp"/>
 <div>
-    <div class="main">
+<%--    <div class="main">--%>
+    <div>
         <p><fmt:message key="Main.addBook"/></p>
         <form method="POST" action="/">
             <input type="hidden" name="command" value="addBook"/>
@@ -24,7 +25,8 @@
             <input type="submit" value="<fmt:message key="Main.add"/>"/>
         </form>
     </div>
-    <div class="main">
+<%--    <div class="main">--%>
+    <div>
         <c:forEach var="book" items="${books}">
             <form method="POST" action="/">
                 <p><fmt:message key="Main.title"/>: ${book.title}</p>
