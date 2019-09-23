@@ -7,8 +7,8 @@
     <div class="header-right">
         <form action="/" method="POST">
             <input type="hidden" name="command" value="language"/>
-            <input name="language" type="submit" value="EN"/>
-            <input name="language" type="submit" value="RU"/>
+            <input name="language" type="submit" value="EN" class="logout"/>
+            <input name="language" type="submit" value="RU" class="logout"/>
         </form>
     </div>
 </div>

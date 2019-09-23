@@ -1,6 +1,7 @@
 package by.javatr.library.command.impl;
 
 import by.javatr.library.command.Command;
+import by.javatr.library.command.CommandResult;
 import by.javatr.library.entity.Book;
 import by.javatr.library.exception.ServiceException;
 import by.javatr.library.service.BookService;
@@ -20,27 +21,23 @@ public class DeleteBookCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) throws ServiceException {
         String page = Constants.MAIN;
         String title = request.getParameter("title");
-        try {
-            Optional<Book> bookOptional = bookService.findByTitle(title);
-            if (bookOptional.isPresent()){
-                Book book = bookOptional.get();
-                int numberOfInstances = book.getNumberOfInstances();
-                if (numberOfInstances > 1) {
-                    book.setNumberOfInstances(numberOfInstances - 1);
-                    bookService.update(book);
-                } else {
-                    bookService.delete(book);
-                }
-                List<Book> allBooks = bookService.findAll();
-                request.setAttribute("books", allBooks);
+        Optional<Book> bookOptional = bookService.findByTitle(title);
+        if (bookOptional.isPresent()) {
+            Book book = bookOptional.get();
+            int numberOfInstances = book.getNumberOfInstances();
+            if (numberOfInstances > 1) {
+                book.setNumberOfInstances(numberOfInstances - 1);
+                bookService.update(book);
+            } else {
+                bookService.delete(book);
             }
-        } catch (ServiceException e) {
-            LOGGER.error(e.getMessage(), e);
-            page = Constants.ERROR;
+            List<Book> allBooks = bookService.findAll();
+            request.setAttribute("books", allBooks);
         }
-        return page;
+        return new CommandResult(page, true);
     }
+
 }

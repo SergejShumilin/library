@@ -1,7 +1,9 @@
 package by.javatr.library.command.impl;
 
 import by.javatr.library.command.Command;
+import by.javatr.library.command.CommandResult;
 import by.javatr.library.dao.connection.ConnectionPool;
+import by.javatr.library.dao.connection.ProxyConnection;
 import by.javatr.library.dao.impl.BookDaoImpl;
 import by.javatr.library.entity.Book;
 import by.javatr.library.entity.Role;
@@ -30,7 +32,7 @@ public class LoginCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) throws ServiceException {
         String page = null;
         String login = request.getParameter(PARAM_NAME_LOGIN);
         String password = request.getParameter(PARAM_NAME_PASSWORD);
@@ -41,11 +43,13 @@ public class LoginCommand implements Command {
                 HttpSession session = request.getSession();
                 int userId = user.getId();
                 session.setAttribute("userId", userId);
-                BookDaoImpl bookDao = new BookDaoImpl(ConnectionPool.getInstance().getConnection());
-                List<Book> allBooks = bookDao.findAll();
-                request.setAttribute("books", allBooks);
+                try (ProxyConnection con = ConnectionPool.getInstance().getConnection()) {
+                    BookDaoImpl bookDao = new BookDaoImpl(con);
+                    List<Book> allBooks = bookDao.findAll();
+                    request.setAttribute("books", allBooks);
+                }
                 if (Role.ADMIN.equals(user.getRole())){
-                        page = Constants.MAIN;
+                    page = Constants.MAIN;
                 }
                 else if (Role.READER.equals(user.getRole())){
                     page = Constants.READER;
@@ -53,12 +57,13 @@ public class LoginCommand implements Command {
             } else {
                 request.setAttribute("errorLoginPassMessage", true);
                 page = Constants.LOGIN;
+
             }
-        } catch (ServiceException | DaoException e) {
+        }
+        catch ( DaoException e) {
             LOGGER.error(e.getMessage(), e);
             page = Constants.ERROR;
         }
-        return page;
+        return new CommandResult(page, false);
     }
-
 }

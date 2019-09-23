@@ -2,7 +2,6 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="text"/>
 
@@ -11,7 +10,7 @@
     <title><fmt:message key="Login.title"/></title>
 </head>
 <style>
-    <%@include file="/WEB-INF/jsp/css/login.css" %>
+    <%@include file="/WEB-INF/jsp/css/main.css" %>
     <%@include file="/WEB-INF/jsp/css/header.css" %>
 </style>
 <body>
@@ -25,7 +24,7 @@
 
         <input type="submit" value="<fmt:message key = "Login.enter"/>"/>
     </form>
-    <c:if test="${errorLoginPassMessage == true}"><fmt:message key="Registration.errorLoginPassMessage"/></c:if>
+    <h2><c:if test="${errorLoginPassMessage == true}"><fmt:message key="Registration.errorLoginPassMessage"/></c:if></h2>
 </div>
 </body>
 </html>

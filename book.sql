@@ -1,7 +1,0 @@
-CREATE TABLE books (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    title VARCHAR(30) NOT NULL,
-    author VARCHAR(30) NOT NULL,
-    genre VARCHAR(30) NOT NULL,
-    number_instances VARCHAR(30) NOT NULL
-);

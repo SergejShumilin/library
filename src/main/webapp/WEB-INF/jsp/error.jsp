@@ -4,6 +4,5 @@
 <h3>Error page</h3>
 <hr/>
 ${error}
-<p>Извините, произошла ошибка</p>
 <hr/>
 </body></html>

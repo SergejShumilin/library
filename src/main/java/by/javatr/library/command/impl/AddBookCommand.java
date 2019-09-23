@@ -1,6 +1,7 @@
 package by.javatr.library.command.impl;
 
 import by.javatr.library.command.Command;
+import by.javatr.library.command.CommandResult;
 import by.javatr.library.entity.Book;
 import by.javatr.library.exception.ServiceException;
 import by.javatr.library.service.BookService;
@@ -20,30 +21,25 @@ public class AddBookCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) throws ServiceException {
         String page = Constants.MAIN;
         String title = request.getParameter("title");
         Book book = null;
-        try {
-            Optional<Book> bookOptional = bookService.findByTitle(title);
-            if (bookOptional.isPresent()) {
-                book = bookOptional.get();
-                int numberOfInstances = book.getNumberOfInstances();
-                book.setNumberOfInstances(numberOfInstances + 1);
-                bookService.update(book);
-            } else {
-                String author = request.getParameter("author");
-                String genre = request.getParameter("genre");
-                String description = request.getParameter("description");
-                book = new Book(title, author, genre, description, 1);
-                bookService.save(book);
-            }
-            List<Book> allBooks = bookService.findAll();
-            request.setAttribute("books", allBooks);
-        } catch (ServiceException e) {
-            page = Constants.ERROR;
-            LOGGER.error(e.getMessage(), e);
+        Optional<Book> bookOptional = bookService.findByTitle(title);
+        if (bookOptional.isPresent()) {
+            book = bookOptional.get();
+            int numberOfInstances = book.getNumberOfInstances();
+            book.setNumberOfInstances(numberOfInstances + 1);
+            bookService.update(book);
+        } else {
+            String author = request.getParameter("author");
+            String genre = request.getParameter("genre");
+            String description = request.getParameter("description");
+            book = new Book(title, author, genre, description, 1);
+            bookService.save(book);
         }
-        return page;
+        List<Book> allBooks = bookService.findAll();
+        request.setAttribute("books", allBooks);
+        return new CommandResult(page, true);
     }
 }

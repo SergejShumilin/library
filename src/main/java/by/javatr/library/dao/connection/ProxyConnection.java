@@ -16,14 +16,6 @@ public class ProxyConnection implements Connection {
         this.connection = connection;
     }
 
-    void doClose() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-    }
-
     @Override
     public Statement createStatement() throws SQLException {
         return connection.createStatement();

@@ -1,12 +1,7 @@
-body {
-    margin: 0;
-    font-family: "Times New Roman", Times, serif;
-}
 
 .header {
     overflow: hidden;
     background: black;
-    opacity:0.8;
 }
 
 .logout {
@@ -19,8 +14,8 @@ body {
     margin: 10px;
 }
 
-
 .header-right {
+    display: inline-block;
     float: right;
     color: black;
     text-align: center;
@@ -28,10 +23,6 @@ body {
     text-decoration: none;
     font-size: 0px;
     line-height: 45px;
-}
-
-.lang {
-    display: inline-block;
 }
 
 .header h1 {
