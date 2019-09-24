@@ -10,19 +10,21 @@
     <%@include file="/WEB-INF/jsp/css/header.css" %>
 </style>
 <body>
-<jsp:include page="header.jsp"/>
+<jsp:include page="header/header.jsp"/>
 <div class="main">
     <c:forEach var="book" items="${books}">
         <form method="POST" action="/">
-    <ul>
-        <li><fmt:message key="Main.title"/>: ${book.title}</li>
-        <li><fmt:message key="Main.author"/>: ${book.author}</li>
-        <li><fmt:message key="Main.genre"/>: ${book.genre} </li>
-        <li><fmt:message key="Main.description"/>: ${book.description}</li>
-    </ul>
-            <input type="hidden" name="command" value="order"/>
-            <input type="hidden" name="id" value="${book.id}"/>
-            <input class="main-submit" type="submit" value="<fmt:message key="Main.order"/>"/>
+            <ul>
+                <li><fmt:message key="Main.title"/>: ${book.title}</li>
+                <li><fmt:message key="Main.author"/>: ${book.author}</li>
+                <li><fmt:message key="Main.genre"/>: ${book.genre} </li>
+                <li><fmt:message key="Main.description"/>: ${book.description}</li>
+                <li>
+                    <input type="hidden" name="command" value="order"/>
+                    <input type="hidden" name="id" value="${book.id}"/>
+                    <input class="main-submit" type="submit" value="<fmt:message key="Main.order"/>"/>
+                </li>
+            </ul>
         </form>
     </c:forEach>
 </div>

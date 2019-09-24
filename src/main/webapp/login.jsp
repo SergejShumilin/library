@@ -14,7 +14,7 @@
     <%@include file="/WEB-INF/jsp/css/header.css" %>
 </style>
 <body>
-<jsp:include page="/WEB-INF/jsp/header_login.jsp"/>
+<jsp:include page="/WEB-INF/jsp/header/header_login.jsp"/>
 <div class="login">
     <h2><fmt:message key="Login.title"/></h2>
     <form method="POST" action="/">

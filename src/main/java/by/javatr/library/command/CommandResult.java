@@ -27,4 +27,12 @@ public class CommandResult {
     public void setRedirect(boolean redirect) {
         isRedirect = redirect;
     }
+
+    @Override
+    public String toString() {
+        return "CommandResult{" +
+                "page='" + page + '\'' +
+                ", isRedirect=" + isRedirect +
+                '}';
+    }
 }

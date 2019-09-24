@@ -6,13 +6,28 @@ public class Order {
     private int id;
     private int userId;
     private int bookId;
+    private boolean isActive;
 
     public Order() {
     }
 
-    public Order(int userId, int bookId) {
+    public Order(int userId, int bookId ) {
         this.userId = userId;
         this.bookId = bookId;
+    }
+
+    public Order(int userId, int bookId, boolean isActive) {
+        this.userId = userId;
+        this.bookId = bookId;
+        this.isActive = isActive;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public int getId() {

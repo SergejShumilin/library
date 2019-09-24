@@ -9,6 +9,47 @@ body {
     width: 80%;
 }
 
+.edit{
+    height:250px;
+    width:400px;
+    background:black;
+    border:1px double black;
+    border-radius:10px;
+    /*opacity:0.8;*/
+    position:absolute;
+    right:40%;
+    top:35%;
+    padding:10px;
+}
+
+
+
+.edit input[type="text"], input[type="password"] {
+    width:100%;
+    margin-bottom:10px;
+    border:none;
+    border-radius:20px;
+    height: 20px;
+    border-bottom:1px solid #fff;
+    color:black;
+    padding:12px;
+}
+
+.edit input[type="submit"]{
+    display: inline-block;
+    width:100%;
+    margin-bottom:10px;
+    border:none;
+    height:25px;
+    border-radius:20px;
+    color:#fff;
+    background:#1E90FF;
+}
+
+.edit input[type="submit"]:hover{
+    background-color:red;
+}
+
 .main-submit {
     background-color: #1E90FF;
     border-radius: 5px;

@@ -27,16 +27,6 @@ public class MainServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("command");
-        CommandResult commandResult = getCommandResult(request, action);
-        boolean redirect = commandResult.isRedirect();
-        if (redirect) {
-            response.sendRedirect(request.getContextPath() + commandResult.getPage());
-        } else {
-            request.getRequestDispatcher(commandResult.getPage()).forward(request, response);
-        }
-    }
-
-    private CommandResult getCommandResult(HttpServletRequest request, String action) {
         CommandResult commandResult = null;
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         try (ProxyConnection connection = connectionPool.getConnection()) {
@@ -48,6 +38,11 @@ public class MainServlet extends HttpServlet {
             request.setAttribute("error", e.getMessage());
             commandResult = new CommandResult(Constants.ERROR, false);
         }
-        return commandResult;
+
+        if (commandResult.isRedirect()) {
+            response.sendRedirect(commandResult.getPage());
+        } else {
+            request.getRequestDispatcher(commandResult.getPage()).forward(request, response);
+        }
     }
 }

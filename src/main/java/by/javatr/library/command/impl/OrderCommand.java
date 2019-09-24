@@ -25,7 +25,7 @@ public class OrderCommand implements Command {
         int userId = (int) session.getAttribute("userId");
         int bookId = Integer.parseInt(request.getParameter("id"));
         Order order = new Order(userId, bookId);
-        CommandResult commandResult = new CommandResult(Constants.READER, false);
+        CommandResult commandResult = new CommandResult(Constants.READER, true);
         orderService.save(order);
         return commandResult;
     }

@@ -5,7 +5,9 @@ import by.javatr.library.command.CommandResult;
 import by.javatr.library.dao.connection.ConnectionPool;
 import by.javatr.library.dao.connection.ProxyConnection;
 import by.javatr.library.dao.impl.BookDaoImpl;
+import by.javatr.library.dao.impl.OrderDaoImpl;
 import by.javatr.library.entity.Book;
+import by.javatr.library.entity.Orders;
 import by.javatr.library.entity.Role;
 import by.javatr.library.entity.User;
 import by.javatr.library.exception.DaoException;
@@ -53,6 +55,13 @@ public class LoginCommand implements Command {
                 }
                 else if (Role.READER.equals(user.getRole())){
                     page = Constants.READER;
+                } else if (Role.LIBRARIAN.equals(user.getRole())){
+                    page = Constants.LIBRARIAN;
+                    try (ProxyConnection con = ConnectionPool.getInstance().getConnection()) {
+                        OrderDaoImpl orderDao = new OrderDaoImpl(con);
+                         List<Orders> all = orderDao.findAll();
+                         request.setAttribute("orders", all);
+                    }
                 }
             } else {
                 request.setAttribute("errorLoginPassMessage", true);

@@ -34,6 +34,10 @@ public class CommandFactory {
                 return new LanguageCommand();
             case "logout":
                 return new LogOutCommand();
+            case "main":
+                return new MainCommand();
+            case "edit":
+                return new EditCommand();
             default:
                 throw new IllegalArgumentException("Unknown command");
         }

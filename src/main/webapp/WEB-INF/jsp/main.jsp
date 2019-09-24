@@ -11,7 +11,7 @@
     <%@include file="/WEB-INF/jsp/css/header.css" %>
 </style>
 <body>
-<jsp:include page="header.jsp"/>
+<jsp:include page="header/header.jsp"/>
 <div>
     <div class="main">
         <p><fmt:message key="Main.addBook"/></p>
@@ -25,9 +25,10 @@
             <div class="col-75">
                 <textarea id="description" name="description" placeholder="<fmt:message key="Main.description"/>"></textarea>
             </div>
+            <input type="hidden" name="page" value="${page}">
             <input type="submit" value="<fmt:message key="Main.add"/>" class="main-submit"/>
         </form>
-
+        <h2><c:if test="${errorLoginPassMessage == true}"><fmt:message key="Registration.errorLoginPassMessage"/></c:if></h2>
         <c:forEach var="book" items="${books}">
             <c:set var="book" value="${book}" scope="request"/>
             <c:import url="/WEB-INF/jsp/book.jsp"/>

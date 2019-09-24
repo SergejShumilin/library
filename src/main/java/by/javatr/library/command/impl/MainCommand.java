@@ -8,22 +8,23 @@ import by.javatr.library.dao.impl.BookDaoImpl;
 import by.javatr.library.entity.Book;
 import by.javatr.library.exception.DaoException;
 import by.javatr.library.exception.ServiceException;
+import by.javatr.library.util.Constants;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
+import java.util.List;
 
-public class ToEditCommand implements Command {
+public class MainCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest request) throws ServiceException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        try(ProxyConnection connection = ConnectionPool.getInstance().getConnection()) {
-            BookDaoImpl bookDao = new BookDaoImpl(connection);
-            Optional<Book> byTitle = bookDao.findById(id);
-            Book book = byTitle.get();
-            request.setAttribute("book", book);
+        String page = null;
+        try (ProxyConnection con = ConnectionPool.getInstance().getConnection()) {
+            BookDaoImpl bookDao = new BookDaoImpl(con);
+            List<Book> allBooks = bookDao.findAll();
+            request.setAttribute("books", allBooks);
+            page = Constants.MAIN;
         } catch (DaoException e) {
-            throw new ServiceException(e.getMessage(), e);
+            e.printStackTrace();
         }
-        return new CommandResult("/WEB-INF/jsp/edit.jsp", false);
+        return new CommandResult(page, false);
     }
 }

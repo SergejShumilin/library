@@ -39,5 +39,4 @@ public class DeleteBookCommand implements Command {
         }
         return new CommandResult(page, true);
     }
-
 }

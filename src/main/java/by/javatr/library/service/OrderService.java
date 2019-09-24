@@ -24,4 +24,14 @@ public class OrderService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
+
+    public void findAll() throws ServiceException {
+        OrderDaoImpl orderDao = daoFactory.createOrderDao();
+        try {
+            orderDao.findAll();
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 }

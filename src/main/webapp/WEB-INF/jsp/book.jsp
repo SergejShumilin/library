@@ -13,7 +13,8 @@
     <input type="hidden" name="title" value="${book.title}"/>
     <input type="hidden" name="command" value="delete"/>
     <input type="submit" value="<fmt:message key="Main.delete"/>" onclick="return confirm('<fmt:message key="Main.confirm"/>')" class="main-submit"/>
-
+</form>
+<form method="post">
     <input type="hidden" name="id" value="${book.id}"/>
     <input type="hidden" name="command" value="to_edit"/>
     <input type="submit" value="<fmt:message key="Main.edit"/>" class="main-submit"/>

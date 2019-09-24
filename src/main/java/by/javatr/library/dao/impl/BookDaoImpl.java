@@ -3,13 +3,17 @@ package by.javatr.library.dao.impl;
 import by.javatr.library.builder.impl.BookBuilder;
 import by.javatr.library.dao.AbstractDao;
 import by.javatr.library.dao.BookDao;
+import by.javatr.library.dao.connection.ConnectionPool;
+import by.javatr.library.dao.connection.ProxyConnection;
 import by.javatr.library.entity.Book;
 import by.javatr.library.exception.DaoException;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +25,9 @@ public class BookDaoImpl extends AbstractDao<Book, String> implements BookDao<Bo
     private final static String DELETE_BOOK = "DELETE FROM books WHERE title = ?";
     private final static String FIND_All_BOOKS = "SELECT * FROM books";
     private final static String FIND_BOOK = "SELECT * FROM books WHERE title = ?";
+    private final static String FIND_BOOK_ID = "SELECT * FROM books WHERE id = ?";
     private static String UPDATE_BOOK_STOCK = "UPDATE books SET number_instances=? WHERE title=?";
+    private static String UPDATE_BOOK = "UPDATE books SET title=?, author=?, genre=?,description=?,number_instances=? WHERE id=?";
 
     public BookDaoImpl(Connection connection) {
         super(connection);
@@ -35,6 +41,24 @@ public class BookDaoImpl extends AbstractDao<Book, String> implements BookDao<Bo
     @Override
     public List<Book> findAll() throws DaoException {
         return executeQuery(FIND_All_BOOKS, new BookBuilder());
+    }
+
+    public Optional<Book> findById(int id) throws DaoException {
+        Book entity = null;
+        try {
+            ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BOOK_ID);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                BookBuilder builder = new BookBuilder();
+                 entity = builder.build(resultSet);
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new DaoException(e.getMessage(), e);
+        }
+        return Optional.of(entity);
     }
 
     @Override
@@ -71,6 +95,22 @@ public class BookDaoImpl extends AbstractDao<Book, String> implements BookDao<Bo
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOOK_STOCK);
             preparedStatement.setInt(1, book.getNumberOfInstances());
             preparedStatement.setString(2, book.getTitle());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage(), e);
+        }
+    }
+
+    public void updateBook(Book book) throws DaoException {
+        try (Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOOK);
+            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setString(2, book.getAuthor());
+            preparedStatement.setString(3, book.getGenre());
+            preparedStatement.setString(4, book.getDescription());
+            preparedStatement.setInt(5, book.getNumberOfInstances());
+            preparedStatement.setInt(6, book.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(e.getMessage(), e);
