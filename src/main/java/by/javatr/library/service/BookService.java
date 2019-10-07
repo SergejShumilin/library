@@ -31,16 +31,26 @@ public class BookService {
         return books;
     }
 
-    public void update(Book book) throws ServiceException {
+    public void updateBook(Book book) throws ServiceException {
         BookDaoImpl bookDao = daoFactory.createBookDao();
         try {
-            bookDao.updateBookNumber(book);
+            bookDao.updateBook(book);
         } catch (DaoException e) {
             LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage(), e);
         }
     }
-
+    public Optional<Book> findById(int id) throws ServiceException {
+        Optional<Book> book = null;
+        try {
+            BookDaoImpl bookDao = daoFactory.createBookDao();
+            book = bookDao.findById(id);
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
+        }
+        return book;
+    }
     public Optional<Book> findByTitle(String title) throws ServiceException {
         Optional<Book> book = null;
         try {
@@ -51,6 +61,18 @@ public class BookService {
             throw new ServiceException(e.getMessage(), e);
         }
         return book;
+    }
+
+    public List<Book> findByGenre(String genre) throws ServiceException {
+        BookDaoImpl bookDao = daoFactory.createBookDao();
+        List<Book> booksByGenre = null;
+        try {
+            booksByGenre = bookDao.findByGenre(genre);
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
+        }
+        return booksByGenre;
     }
 
     public void save(Book book) throws ServiceException {
@@ -71,5 +93,33 @@ public class BookService {
             LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage(), e);
         }
+    }
+
+    public void deleteBooksIssued(int bookId) throws ServiceException {
+        BookDaoImpl bookDao = daoFactory.createBookDao();
+        try {
+            bookDao.removeBooksIssued(bookId);
+        } catch (DaoException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    public List<Book> findPage(int number, int pageSize) throws ServiceException {
+        BookDaoImpl bookDao = daoFactory.createBookDao();
+        List<Book> bookList = null;
+        try {
+            bookList = bookDao.findPage(number, pageSize);
+        } catch (DaoException e){
+            throw new ServiceException(e.getMessage(), e);
+        }
+
+        return bookList;
+    }
+
+    public long size() throws DaoException {
+        BookDaoImpl bookDao = daoFactory.createBookDao();
+        List<Book> all = bookDao.findAll();
+        return all.size();
     }
 }

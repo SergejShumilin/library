@@ -15,7 +15,8 @@
 }
 
 .header-right {
-    display: inline-block;
+    /*display: inline-block;*/
+    display: inline-flex;
     float: right;
     color: black;
     text-align: center;

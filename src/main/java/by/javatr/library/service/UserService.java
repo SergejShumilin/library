@@ -7,6 +7,8 @@ import by.javatr.library.exception.DaoException;
 import by.javatr.library.exception.ServiceException;
 import org.apache.log4j.Logger;
 
+
+import java.util.List;
 import java.util.Optional;
 
 public class UserService {
@@ -26,6 +28,17 @@ public class UserService {
             LOGGER.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage(), e);
         }
+    }
+
+    public List<User> findAll() throws ServiceException {
+        UserDaoImp dao = daoFactory.createUserDao();
+        List<User> allUsers = null;
+        try {
+           allUsers = dao.findAll();
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+        return allUsers;
     }
 
 }

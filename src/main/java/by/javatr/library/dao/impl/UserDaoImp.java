@@ -13,6 +13,7 @@ import java.util.Optional;
 public class UserDaoImp extends AbstractDao<User, String> implements UserDao<User, String> {
     private final static String FIND_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM users WHERE name = ? and password = ?";
     private final static String FIND_All_USERS = "SELECT * FROM users";
+    private final static String FIND_USER_BY_NAME = "SELECT * FROM users WHERE name = ?";
 
 
     public UserDaoImp(Connection connection) {
@@ -21,13 +22,16 @@ public class UserDaoImp extends AbstractDao<User, String> implements UserDao<Use
 
     @Override
     public List<User> findAll() throws DaoException {
-        List<User> users = executeQuery(FIND_All_USERS, new UserBuilder());
-        return users;
+        return executeQuery(FIND_All_USERS, new UserBuilder());
     }
 
     @Override
     public Optional<User> findUserByLoginAndPassword(String login, String password) throws DaoException {
         return executeForSingleResult(FIND_USER_BY_LOGIN_AND_PASSWORD, new UserBuilder(), login, password);
+    }
+
+    public Optional<User> findByName(String name) throws DaoException {
+        return executeForSingleResult(FIND_USER_BY_NAME, new UserBuilder(), name);
     }
 
 }

@@ -17,6 +17,5 @@ public class LanguageCommand implements Command {
         Locale locale = new Locale(language);
         session.setAttribute("locale", locale);
         return new CommandResult(Constants.LOGIN, false);
-//        return Constants.LOGIN;
     }
 }

@@ -16,12 +16,23 @@ CREATE TABLE books (
     number_instances VARCHAR(30) NOT NULL
 );
 
+CREATE TABLE books_issued (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    title VARCHAR(30) NOT NULL,
+    author VARCHAR(30) NOT NULL,
+    genre VARCHAR(30) NOT NULL,
+    book_id INTEGER  NOT NULL,
+    FOREIGN KEY (book_id) REFERENCES books(id)
+);
+
 CREATE TABLE orders (
     id INTEGER AUTO_INCREMENT NOT NULL,
     user_id INTEGER NOT NULL,
-    book_title INTEGER  NOT NULL,
+    book_id INTEGER  NOT NULL,
+    isActive Boolean NOT NULL,
+    date VARCHAR(30) NO NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (book_title) REFERENCES books(title)
+    FOREIGN KEY (book_id) REFERENCES books(id)
 );
 
 insert into books(title,author,genre,description, number_instances) values ("451° по Фаренгейту","Рей Брэдбери","Научная фантастика", "Мастер мирового масштаба, совмещающий в литературе несовместимое. Создатель таких ярчайших шедевров, как Марсианские хроники, 451° по Фаренгейту, Вино из одуванчиков и так далее и так далее. Лауреат многочисленных премий. Это Рэй Брэдбери.", 5);

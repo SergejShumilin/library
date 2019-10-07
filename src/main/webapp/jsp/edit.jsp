@@ -6,14 +6,14 @@
 <fmt:setBundle basename="text"/>
 <html>
 <style>
-    <%@include file="/WEB-INF/jsp/css/main.css" %>
-    <%@include file="/WEB-INF/jsp/css/header.css" %>
+    <%@include file="/jsp/css/main.css" %>
+    <%@include file="/jsp/css/header.css" %>
 </style>
 <head>
     <title>Sport shop</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/jsp/header/header_edit.jsp"/>
+<jsp:include page="/jsp/header/header_edit.jsp"/>
 <c:set var="page" value="${page}" scope="request"/>
 <div class="edit">
 <form method="POST" action="/">

@@ -9,25 +9,35 @@ public class Book {
     private String genre;
     private String description;
     private int numberOfInstances;
+    private int numberAvailableOfInstances;
 
     public Book() {
     }
 
-    public Book(String title, String author, String genre, String description, int numberOfInstances) {
+    public Book(String title, String author, String genre, int id) {
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.id = id;
+    }
+
+    public Book(String title, String author, String genre, String description, int numberOfInstances, int numberAvailableOfInstances) {
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.description = description;
         this.numberOfInstances = numberOfInstances;
+        this.numberAvailableOfInstances = numberAvailableOfInstances;
     }
 
-    public Book(int id, String title, String author, String genre, String description, int numberOfInstances) {
+    public Book(int id, String title, String author, String genre, String description, int numberOfInstances, int numberAvailableOfInstances) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.description = description;
         this.numberOfInstances = numberOfInstances;
+        this.numberAvailableOfInstances = numberAvailableOfInstances;
     }
 
     public int getId() {
@@ -76,6 +86,14 @@ public class Book {
 
     public void setNumberOfInstances(int numberOfInstances) {
         this.numberOfInstances = numberOfInstances;
+    }
+
+    public int getNumberAvailableOfInstances() {
+        return numberAvailableOfInstances;
+    }
+
+    public void setNumberAvailableOfInstances(int numberAvailableOfInstances) {
+        this.numberAvailableOfInstances = numberAvailableOfInstances;
     }
 
     @Override

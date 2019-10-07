@@ -8,17 +8,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import static by.javatr.library.dao.connection.DbPropertyManager.getProperty;
-
 public class ConnectionPool {
     private final static Logger LOGGER = Logger.getLogger(ConnectionPool.class);
 
     private LinkedBlockingQueue<ProxyConnection> connectionQueue;
-
-    private final static String URL = getProperty("url");
-    private final static String USER = getProperty("user");
-    private final static String PASSWORD = getProperty("password");
-    private final static int POOL_SIZE = Integer.parseInt(getProperty("poolSize"));
+    private final static String URL = DbPropertyManager.getProperty("url");
+    private final static String USER = DbPropertyManager.getProperty("user");
+    private final static String PASSWORD = DbPropertyManager.getProperty("password");
+    private final static int POOL_SIZE = Integer.parseInt(DbPropertyManager.getProperty("poolSize"));
     private static final ConnectionPool INSTANCE = new ConnectionPool(POOL_SIZE);
 
     private ConnectionPool(int poolSize) {
@@ -68,6 +65,5 @@ public class ConnectionPool {
             connectionQueue.offer(createConnection());
         }
     }
-
 }
 

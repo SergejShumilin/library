@@ -1,13 +1,9 @@
 package by.javatr.library.dao;
 
 import by.javatr.library.builder.Builder;
-import by.javatr.library.dao.connection.ConnectionPool;
-import by.javatr.library.dao.connection.ProxyConnection;
-import by.javatr.library.entity.Book;
 import by.javatr.library.exception.DaoException;
 import org.apache.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +21,7 @@ public abstract class AbstractDao<T, K> implements Dao<T, K> {
         this.connection = connection;
     }
 
-    protected List<T> executeQuery(String query, Builder<T> builder, String... parameters) throws DaoException {
+    protected List<T> executeQuery(String query, Builder<T> builder, Object... parameters) throws DaoException {
         List<T> entities = null;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -43,7 +39,7 @@ public abstract class AbstractDao<T, K> implements Dao<T, K> {
         return entities;
     }
 
-    protected Optional<T> executeForSingleResult(String query, Builder<T> builder, String... parameters) throws DaoException {
+    protected Optional<T> executeForSingleResult(String query, Builder<T> builder, Object... parameters) throws DaoException {
         List<T> items = executeQuery(query, builder, parameters);
         if (items.size() == 1) {
             return Optional.of(items.get(0));
@@ -52,10 +48,21 @@ public abstract class AbstractDao<T, K> implements Dao<T, K> {
         }
     }
 
-    private void setParametersPreparedStatement(PreparedStatement preparedStatement, String... parameters) throws SQLException {
+    private void setParametersPreparedStatement(PreparedStatement preparedStatement, Object... parameters) throws SQLException {
         for (int i = 0; i < parameters.length; i++) {
-            preparedStatement.setString(i+1, parameters[i]);
+            preparedStatement.setObject(i+1, parameters[i]);
         }
+    }
+
+    protected PreparedStatement executeUpdate(String query) throws DaoException {
+        PreparedStatement preparedStatement = null;
+        try{
+            preparedStatement = connection.prepareStatement(query);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new DaoException(e.getMessage(), e);
+        }
+        return preparedStatement;
     }
 
     public Connection getConnection() {

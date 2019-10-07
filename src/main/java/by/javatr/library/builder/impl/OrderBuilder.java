@@ -1,7 +1,7 @@
 package by.javatr.library.builder.impl;
 
 import by.javatr.library.builder.Builder;
-import by.javatr.library.entity.Orders;
+import by.javatr.library.entity.Order;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,12 +9,22 @@ import java.sql.SQLException;
 
 public class OrderBuilder implements Builder {
     @Override
-    public Orders build(ResultSet resultSet) throws SQLException {
+    public Order build(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
-        String title = resultSet.getString("name");
-        String author = resultSet.getString("title");
-        boolean active = resultSet.getBoolean("active");
-        Orders orders = new Orders(id, title, author, active);
-        return orders;
+        String name = resultSet.getString("name");
+        String title = resultSet.getString("title");
+        boolean active = resultSet.getBoolean("isActive");
+        String date = resultSet.getString("date");
+        int bookId = resultSet.getInt("book_id");
+//        Order order = new Order(id, name, title, active, date, bookId);
+        Order order = new Order.Builder()
+        .buildId(id)
+        .buildName(name)
+        .buildTitle(title)
+        .buildActive(active)
+        .buildDate(date)
+        .buildBookId(bookId)
+        .build();
+        return order;
     }
 }

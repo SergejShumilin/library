@@ -6,16 +6,15 @@
 <div class="header">
     <h1><fmt:message key="Header.title"/></h1>
     <div class="header-right">
+        <form method="post" action="/">
+            <input type="hidden" name="command" value="showUsers"/>
+            <input type="submit" value="<fmt:message key="Main.showUsers"/>" class="logout"/>
+        </form>
+
         <form action="/" method="post">
             <input type="hidden" name="command" value="logout"/>
             <input class="logout" type="submit" name="logout" value="<fmt:message key="Header.logout"/>"/>
         </form>
-    </div>
 
-    <div class="header-right">
-        <form method="post" action="/">
-            <input type="hidden" name="command" value="main"/>
-            <input type="submit" value="main" class="logout"/>
-        </form>
     </div>
 </div>
