@@ -30,7 +30,6 @@ public class ReturnBookInStorageCommand extends AbstractBookCommand {
         bookService.updateBook(book);
 
         bookService.deleteBooksIssued(bookId);
-//        return new CommandResult(Constants.MAIN_COMMAND, false);
         return new CommandResult(Constants.SHOW_BOOKS_HAVE_READER_COMMAND, true);
     }
 }

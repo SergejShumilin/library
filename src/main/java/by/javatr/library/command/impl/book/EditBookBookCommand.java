@@ -37,8 +37,7 @@ public class EditBookBookCommand extends AbstractBookCommand {
         int numberOfInstances = Integer.parseInt(request.getParameter("numberOfInstances"));
 
         if(numberOfInstances<numberNotAvailableBooks){
-//            numberOfInstances = book.getNumberOfInstances();
-            numberOfInstances = oldNumberOfInstances;
+            numberOfInstances = numberNotAvailableBooks;
         }
 
         int numberAvailableOfInstances = numberOfInstances - numberNotAvailableBooks;

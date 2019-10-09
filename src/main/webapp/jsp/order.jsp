@@ -13,16 +13,15 @@
     <title>Title</title>
 </head>
 <body>
-<%--<c:if test="${reader == true}">--%>
-<%--    <jsp:include page="/jsp/header/header_users.jsp"/>--%>
-<%--</c:if>--%>
 <jsp:include page="/jsp/header/header_edit.jsp"/>
-<div class="main">
+<%--<div class="main">--%>
+<div class="order">
     <c:choose>
         <c:when test="${bookEmpty == true}">
             <h2><fmt:message key="Order.empty"/></h2>
         </c:when>
         <c:otherwise>
+            <h2><fmt:message key="Order.list"/></h2>
             <table>
                 <tr>
                     <th><fmt:message key="Order.number"/></th>

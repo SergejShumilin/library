@@ -33,7 +33,6 @@ public abstract class AbstractDao<T, K> implements Dao<T, K> {
                 entities.add(entity);
             }
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage(), e);
             throw new DaoException(e.getMessage(), e);
         }
         return entities;

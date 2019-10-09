@@ -9,14 +9,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class TagFor extends TagSupport {
+public class DateTag extends TagSupport {
+    private static final String PATTERN = "MM/dd/yyyy HH:mm:ss";
 
     @Override
     public int doStartTag() throws JspException {
-        String pattern = "MM/dd/yyyy HH:mm:ss";
-        DateFormat df = new SimpleDateFormat(pattern);
+        DateFormat dateFormat = new SimpleDateFormat(PATTERN);
         Date date = Calendar.getInstance().getTime();
-        String today = df.format(date);
+        String today = dateFormat.format(date);
         try {
             JspWriter out = pageContext.getOut();
             out.write(today);

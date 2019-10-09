@@ -39,7 +39,6 @@ public class AddBookBookCommand extends AbstractBookCommand {
                 session.setAttribute("invalid", true);
                 return new CommandResult(Constants.MAIN_COMMAND, true);
             }
-//            session.removeAttribute("error");
             return new CommandResult(Constants.MAIN_COMMAND, true);
         }
     }

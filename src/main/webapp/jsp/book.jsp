@@ -15,7 +15,7 @@
 <div class="main">
 <c:choose>
     <c:when test="${booksEmpty == true}">
-        <h2>книги на месте</h2>
+        <h2><fmt:message key="Book.empty"/></h2>
     </c:when>
     <c:otherwise>
     <table>

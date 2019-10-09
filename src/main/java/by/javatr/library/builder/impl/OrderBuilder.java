@@ -16,7 +16,6 @@ public class OrderBuilder implements Builder {
         boolean active = resultSet.getBoolean("isActive");
         String date = resultSet.getString("date");
         int bookId = resultSet.getInt("book_id");
-//        Order order = new Order(id, name, title, active, date, bookId);
         Order order = new Order.Builder()
         .buildId(id)
         .buildName(name)

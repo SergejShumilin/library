@@ -15,7 +15,9 @@
 </head>
 <body>
 <jsp:include page="/jsp/header/header_edit.jsp"/>
-<div class="main">
+<%--<div class="main">--%>
+<div class="order">
+    <h2><fmt:message key="User.list"/></h2>
     <table>
         <tr>
             <th><fmt:message key="User.name"/></th>

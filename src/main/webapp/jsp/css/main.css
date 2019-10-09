@@ -1,6 +1,6 @@
 body {
-    background-color: silver;
-    /*background-image: url("https://cs7.pikabu.ru/post_img/big/2017/12/12/4/1513052705177170307.jpg");*/
+    /*background-color: silver;*/
+    background-image: url("https://cs7.pikabu.ru/post_img/big/2017/12/12/4/1513052705177170307.jpg");
     margin: 0;
 }
 
@@ -11,7 +11,11 @@ body {
     width: 75%;
 
 }
-
+.order {
+    position: absolute;
+    left: 12%;
+    width: 75%;
+}
 .tableOfGenre {
     color:white;
     font-size:30px;
@@ -26,16 +30,23 @@ body {
 
 .addBook {
     color:white;
-    font-size:30px;
     margin:30px;
     padding: 10px;
     right: 100%;
-    /*left: 2%;*/
     position: absolute;
     background-color: black;
     border: 1px solid white;
 }
-
+.searchBook {
+    color:white;
+    margin:30px;
+    padding: 10px;
+    right: 100%;
+    top: 55%;
+    position: absolute;
+    background-color: black;
+    border: 1px solid white;
+}
 th {
     height: 50px;
     background-color: #1E90FF;
@@ -125,12 +136,15 @@ li {
     font-size: 20px;
 }
 
-.main h2 {
+/*.main h2 {*/
+.order h2 {
     margin: 0;
-    text-align: left;
-    color: black;
+    text-align: center;
+    color: seashell;
+    background-color: black;
+    opacity: 0.8;
     padding: 0px;
-    font-size: 20px;
+    font-size: 30px;
 }
 
 p {

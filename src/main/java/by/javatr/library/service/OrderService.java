@@ -33,7 +33,6 @@ public class OrderService {
         List<Order> allOrders = null;
         OrderDaoImpl orderDao = daoFactory.createOrderDao();
         try {
-//            allOrders = orderDao.findByUserIdAllOrders(userId);
             allOrders = orderDao.findByUserIdActiveOrders(userId);
         } catch (DaoException e) {
             LOGGER.error(e.getMessage(), e);

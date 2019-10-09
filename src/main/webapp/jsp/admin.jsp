@@ -38,6 +38,15 @@
             <input type="submit" value="<fmt:message key="Main.add"/>" class="main-submit"/>
         </form>
         </div>
+<%--        <div class="searchBook">--%>
+<%--            <p>Поиск книги</p>--%>
+<%--            <form method="POST" action="/">--%>
+<%--                <input type="hidden" name="command" value="searchBook"/>--%>
+<%--                <input name="title" type="text" value="${book.title}" placeholder="<fmt:message key="Header.book"/>"--%>
+<%--                       required/>--%>
+<%--                <input class="main-submit" type="submit" value="<fmt:message key="Header.search"/>"/>--%>
+<%--            </form>--%>
+<%--        </div>--%>
         <table>
             <tr>
                 <th><fmt:message key="Main.title"/></th>
@@ -54,19 +63,19 @@
                     <td> ${book.numberOfInstances}</td>
 
                     <td>
-                        <form method="POST" action="/">
-                            <input type="hidden" name="title" value="${book.title}"/>
-                            <input type="hidden" name="command" value="delete"/>
-                            <input type="hidden" name="page" value="${page}">
-                            <input type="submit" value="<fmt:message key="Main.delete"/>"
-                                   onclick="return confirm('<fmt:message key="Main.confirm"/>')" class="main-submit"/>
-                        </form>
-
-                        <form method="post" action="/">
-                            <input type="hidden" name="id" value="${book.id}"/>
-                            <input type="hidden" name="command" value="to_edit"/>
-                            <input type="submit" value="<fmt:message key="Main.edit"/>" class="main-submit"/>
-                        </form>
+                        <div>
+                            <form method="post" action="/">
+                                <input type="hidden" name="id" value="${book.id}"/>
+                                <input type="hidden" name="command" value="to_edit"/>
+                                <input type="submit" value="<fmt:message key="Main.edit"/>"/>
+                            </form>
+                            <form method="POST" action="/">
+                                <input type="hidden" name="title" value="${book.title}"/>
+                                <input type="hidden" name="command" value="delete"/>
+                                <input type="hidden" name="page" value="${page}">
+                                <input type="submit" value="<fmt:message key="Main.delete"/>" onclick="return confirm('<fmt:message key="Main.confirm"/>')" />
+                            </form>
+                        </div>
                     </td>
                 </tr>
             </c:forEach>

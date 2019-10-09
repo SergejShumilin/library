@@ -11,7 +11,6 @@ import by.javatr.library.util.Constants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShowUserOrdersCommand implements Command {
@@ -27,7 +26,7 @@ public class ShowUserOrdersCommand implements Command {
         int id = 0;
         String page = null;
         User user = (User) session.getAttribute("user");
-        List<Order> orderByUserId;
+        List<Order> orderByUserId = null;
         if (Role.ADMIN.equals(user.getRole())) {
             id = Integer.parseInt(request.getParameter("id"));
             orderByUserId = orderService.findAllOrdersByUserId(id);
@@ -38,7 +37,7 @@ public class ShowUserOrdersCommand implements Command {
             page = Constants.ORDER;
             orderByUserId = orderService.findActiveOrdersByUserId(id);
             request.setAttribute("reader", true);
-        } else {
+        } else if (Role.LIBRARIAN.equals(user.getRole())){
             id = Integer.parseInt(request.getParameter("id"));
             page = Constants.ORDER;
             orderByUserId = orderService.findActiveOrdersByUserId(id);
